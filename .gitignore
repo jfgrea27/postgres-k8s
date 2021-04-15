@@ -1,0 +1,12 @@
+#VSCode
+.vscode/
+__pycache__/
+
+#Virtual Environment
+venv/
+
+# Evnironment Variables
+.env
+
+# Notes - TODO remove this
+NOTES.md 
