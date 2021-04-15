@@ -8,5 +8,6 @@ venv/
 # Evnironment Variables
 .env
 
-# Notes - TODO remove this
+# TODO remove this
 NOTES.md 
+data/
