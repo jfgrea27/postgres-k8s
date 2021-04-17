@@ -1,59 +1,74 @@
 """This module contains database logic"""
 import os 
 
-import sqlite3
+import psycopg2
 
 
 class Database:
     def __init__(self) -> None:
+        self.db_host = os.environ.get('DB_HOST')
         self.db_name = os.environ.get('DB_NAME')
+        self.db_user = os.environ.get('DB_USER')
+        self.db_password = os.environ.get('DB_PASSWORD')
+        self.db_port = os.environ.get('DB_PORT')
 
-    def execute(self, sql: str, data):
-        return self._execute(sql, False, data)
 
-    def execute_many(self, sql: str, data):
-        return self._execute(sql, True, data)
+    def execute(self, sql: str, *data):
+        return self._execute(sql, False, *data)
+
+    def execute_many(self, sql: str, *data):
+        return self._execute(sql, True, *data)
     
-    def _execute(self, sql: str, execute_many: bool, data):
+    def _execute(self, sql: str, execute_many: bool, *data):
         try:
-            con = sqlite3.connect(self.db_name)
+            con = psycopg2.connect(
+                host=self.db_host,
+                database=self.db_name,
+                user=self.db_user,
+                password=self.db_password,
+                port=self.db_port
+            )
 
             cur = con.cursor()
             
             if execute_many:
-                data = cur.executemany(sql, data).fetchall()
+                cur.executemany(sql, *data) 
             else:
-                data = cur.execute(sql, data).fetchall()
+                cur.execute(sql, data)
+            con.commit()
+        except Exception as e:  
+            # TODO define Exception
+            print(e)
+
+    def fetch(self, sql: str, *data):
+        return self._fetch(sql, False, *data)
+
+    def fetch_many(self, sql: str, *data):
+        return self._fetch(sql, True, *data)
+    
+    def _fetch(self, sql: str, fetch_many: bool, *data):
+        try:
+            con = psycopg2.connect(
+                host=self.db_host,
+                database=self.db_name,
+                user=self.db_user,
+                password=self.db_password
+            )
+
+            cur = con.cursor()
             
+            if fetch_many:
+                cur.executemany(sql, *data) 
+                data = cur.fetchall()
+            else:
+                cur.execute(sql, data)
+                data = cur.fetchall()
             con.commit()
             return data
-        except Exception as e:  # TODO define Exception
+        except Exception as e:  
+            # TODO define Exception
             print(e)
 
 
-# TODO remove this
 
-
-
-with open('data/data.csv') as file:
-    data = file.readlines()
-
-    formated_data = []
-    for line in data:
-        field_separated = line.split(',')
-        formated_data.append(field_separated)
-
-    db = Database()
-
-    insert_sql = (
-        "INSERT INTO main.Accounts( "
-	        "id,"
-	        "first_name,"
-	        "last_name,"
-	        "email,"
-	        "gender,"
-	        "account_number,"
-	        "crncy,"
-	        "balance) "
-        "VALUES (?, ?, ?, ?, ?, ?, ?, ?);")
-    db.execute_many(insert_sql, formated_data)
+db = Database()
