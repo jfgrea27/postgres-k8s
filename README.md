@@ -8,6 +8,8 @@ This application handles HTTP requests from other Kurbenetes Components, fetchin
 An external PostgreSQL database was chosen since ensuring data consistency across Kurbenetes Components is not very suited to Kurbenetes' stateless Components.
 Further, the data was mocked to be sensitive financial data and so, for the sake of this project, was deemed sensitive. Running PostgreSQL on Kurbenetes has the additional drawback that data may be erased if the cluster completely crashes. [Ref: (1)]  
 
+## Requirements
+TODO
 
 ## Networking 
 The application is running from `minikube` and communicates to the external PostgreSQL. Additional configurations from the PostgreSQL side were needed in order to allow PostgreSQL to accept client requests from Kurbenetes. These were inspired by [Ref: (2)]
