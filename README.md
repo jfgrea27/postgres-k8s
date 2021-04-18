@@ -27,4 +27,5 @@ docker run --name accounts-postgres-db-cont -it -p 5000:5000 accounts-postgres-d
 
 ## References
 (1) https://cloud.google.com/blog/products/databases/to-run-or-not-to-run-a-database-on-kubernetes-what-to-consider
+
 (2) https://gist.github.com/MauricioMoraes/87d76577babd4e084cba70f63c04b07d
