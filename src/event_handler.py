@@ -19,7 +19,7 @@ class EventHandler:
             "last_name,"
             "email,"
             "gender,"
-            "account_number,"
+            "iban,"
             "crncy,"
             "balance "
             "FROM \"Accounts\";"
@@ -58,11 +58,11 @@ class EventHandler:
             "last_name,"
             "email,"
             "gender,"
-            "account_number,"
+            "iban,"
             "crncy,"
             "balance "
             "FROM \"Accounts\" "
-            "WHERE account_number = %s;"
+            "WHERE iban = %s;"
         )
 
         select_res = self._db.fetch(select_account, iban)
@@ -93,12 +93,12 @@ class EventHandler:
             "last_name,"
             "email,"
             "gender,"
-            "account_number,"
+            "iban,"
             "crncy,"
             "balance) "
             "VALUES "
             "(%s, %s, %s, %s, %s, %s, %s) "
-            "ON CONFLICT (account_number) DO UPDATE SET "
+            "ON CONFLICT (iban) DO UPDATE SET "
             "first_name = EXCLUDED.first_name,"
             "last_name = EXCLUDED.last_name,"
             "email = EXCLUDED.email,"
@@ -122,7 +122,7 @@ class EventHandler:
     def delete_account(self, form: dict[str, Union[str, float]]) -> bool:
         delete_accounts = (
             "DELETE FROM \"Accounts\" "
-            "WHERE account_number = %s;"
+            "WHERE iban = %s;"
         )
 
         iban = form.get('iban')
