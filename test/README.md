@@ -10,7 +10,7 @@ TODO
 The following instructions set up of the testing environment:
 
 ```sh
-cd ./test/integration
+cd ./test/setup
 docker build -t accounts-db-test . # Builds from Dockerfile
-docker run --name db-accounts-test-cont -it -e POSTGRES_PASSWORD=mysecretpassword -p 5432:5432 accounts-db-test # Running Container
+docker run --name db-accounts-test-cont -it -p 5432:5432 accounts-db-test # Running Container
 ```
