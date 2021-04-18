@@ -1,7 +1,27 @@
 """This module contains database logic"""
 import os
+from dataclasses import dataclass
+from datetime import datetime
 
 import psycopg2
+
+
+@dataclass
+class DatabaseHealth:
+    created_at: datetime
+    user: str
+    ip: str
+    port: int
+    live: bool
+
+    def to_json(self):
+        return {
+            'created_at': self.created_at,
+            'user': self.user,
+            'ip': self.ip,
+            'port': self.port,
+            'live': self.live
+        }
 
 
 class Database:

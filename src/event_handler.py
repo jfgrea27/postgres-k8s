@@ -1,7 +1,8 @@
 """This module contains event handler logic"""
 from typing import Union, List, Dict
+from datetime import datetime
 
-from database import Database
+from database import Database, DatabaseHealth
 from account import Account
 
 
@@ -12,7 +13,8 @@ class EventHandler:
 
     def get_accounts(self) -> List[Account]:
         accounts = []
-        import pdb; pdb.set_trace
+        import pdb
+        pdb.set_trace
         select_accounts = (
             "SELECT "
             "first_name,"
@@ -128,3 +130,23 @@ class EventHandler:
         iban = form.get('iban')
 
         return self._db.execute(delete_accounts, iban)
+
+    def get_health(self):
+        select_ip_port = (
+            "SELECT inet_server_addr( ), inet_server_port( );"
+        )
+
+        created_at = datetime.now()
+        user = self._db.db_user
+        live = False
+        ip = None
+        port = None
+        res = self._db.fetch(select_ip_port)
+
+        if res and res[0] is not None:
+            (ip, port) = res[0]
+            live = True
+
+        db_health = DatabaseHealth(created_at,  user, ip, port, live)
+
+        return db_health.to_json()

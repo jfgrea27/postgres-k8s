@@ -43,4 +43,10 @@ def account(iban):
         abort(404, description="Resource not found")
 
 
+@app.route('/api/v1/health')
+def health():
+    load = event_handler.get_health()
+    return jsonify(status=200, result=load)
+
+
 app.run(host='0.0.0.0')

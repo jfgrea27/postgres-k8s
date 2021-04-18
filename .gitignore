@@ -7,9 +7,11 @@ venv/
 
 # Evnironment Variables
 .env
+.env.local
 
 # TODO remove this
 NOTES.md 
 data/
 POSTGRESQL_NOTES.md
 DOCKER_NOTES.md
+KURBENETES.md
