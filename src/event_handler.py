@@ -1,5 +1,5 @@
 """This module contains event handler logic"""
-from typing import Union
+from typing import Union, List, Dict
 
 from database import Database
 from account import Account
@@ -10,9 +10,9 @@ class EventHandler:
     def __init__(self):
         self._db = Database()
 
-    def get_accounts(self) -> list[Account]:
+    def get_accounts(self) -> List[Account]:
         accounts = []
-
+        import pdb; pdb.set_trace
         select_accounts = (
             "SELECT "
             "first_name,"
@@ -85,7 +85,7 @@ class EventHandler:
                               )
         return account
 
-    def upsert_account(self, form: dict[str, Union[str, float]]) -> bool:
+    def upsert_account(self, form: Dict[str, Union[str, float]]) -> bool:
         upsert_accounts = (
             "INSERT INTO \"Accounts\" "
             "("
@@ -119,7 +119,7 @@ class EventHandler:
         return self._db.execute(upsert_accounts, first_name, last_name,
                                 email, gender, iban, crncy, balance)
 
-    def delete_account(self, form: dict[str, Union[str, float]]) -> bool:
+    def delete_account(self, form: Dict[str, Union[str, float]]) -> bool:
         delete_accounts = (
             "DELETE FROM \"Accounts\" "
             "WHERE iban = %s;"

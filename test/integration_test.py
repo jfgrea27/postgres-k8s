@@ -9,7 +9,7 @@ from src.event_handler import EventHandler
 from src.account import Account
 from test.test_database import TestDatabase
 
-load_dotenv('.env.test')
+load_dotenv('./test/.env.test')
 
 
 class EventHandlerShouldReadAccounts(unittest.TestCase):
@@ -21,7 +21,6 @@ class EventHandlerShouldReadAccounts(unittest.TestCase):
 
     def test_retrieves_account(self):
         account = self.event_handler.get_account('BH56 ZQPE KMTY NLIM ZYQ8 7K')
-
         self.assertEqual(account.balance, 29.54)
         self.assertEqual(account.crncy, 'EUR')
         self.assertEqual(account.email, 'tberceros2@hc360.com')
@@ -45,7 +44,7 @@ class EventHandlerShouldReadAccounts(unittest.TestCase):
             'balance': 12345
         }
 
-        accounts = self.event_handler.upsert_account(test_dict)
+        self.event_handler.upsert_account(test_dict)
 
         select = (
             "SELECT email FROM \"Accounts\" WHERE iban = %s;"
@@ -66,52 +65,7 @@ class EventHandlerShouldReadAccounts(unittest.TestCase):
             'balance': 12345
         }
 
-        accounts = self.event_handler.upsert_account(test_dict)
-
-        select = (
-            "SELECT "
-            "first_name,"
-            "last_name,"
-            "email,"
-            "gender,"
-            "iban,"
-            "crncy,"
-            "balance "
-            "FROM \"Accounts\" "
-            "WHERE iban = %s;"
-        )
-
-        (
-            first_name,
-            last_name,
-            email,
-            gender,
-            iban,
-            crncy,
-            balance
-        ) = self.test_db.fetch(
-            select, 'PL38 0462 5893 3715 8610 7657 0112')[0]
-
-        self.assertEqual(balance, 12345.0)
-        self.assertEqual(crncy, 'Upsert Currency')
-        self.assertEqual(email, 'Upsert Email')
-        self.assertEqual(first_name, 'Upsert First Name')
-        self.assertEqual(gender, 'Upsert Gender')
-        self.assertEqual(iban, 'PL38 0462 5893 3715 8610 7657 0112')
-        self.assertEqual(last_name, 'Upsert Last Name')
-
-    def test_upserts_accounts(self):
-        test_dict = {
-            'first_name': 'Upsert First Name',
-            'last_name': 'Upsert Last Name',
-            'email': 'Upsert Email',
-            'gender': 'Upsert Gender',
-            'iban': 'PL38 0462 5893 3715 8610 7657 0112',
-            'crncy': 'Upsert Currency',
-            'balance': 12345
-        }
-
-        accounts = self.event_handler.upsert_account(test_dict)
+        self.event_handler.upsert_account(test_dict)
 
         select = (
             "SELECT "

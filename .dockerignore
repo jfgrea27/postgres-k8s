@@ -1,0 +1,22 @@
+#VSCode
+.vscode/
+__pycache__/
+
+#Virtual Environment
+venv/
+
+# Tests
+test/
+
+# Git
+.gitignore
+.git 
+
+# K8S
+k8s-deployment.yaml
+
+
+# TODO remove this
+NOTES.md
+POSTGRESQL_NOTES.md
+DOCKER_NOTES.md

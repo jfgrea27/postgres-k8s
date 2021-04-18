@@ -1,8 +1,10 @@
 """This module contains REST interface logic"""
 from flask import Flask, request, jsonify, abort
+from dotenv import load_dotenv
 
 from event_handler import EventHandler
 
+load_dotenv('.env')
 
 event_handler = EventHandler()
 
@@ -39,3 +41,6 @@ def account(iban):
         return jsonify(status=200, result=load)
     else:
         abort(404, description="Resource not found")
+
+
+app.run(host='0.0.0.0')

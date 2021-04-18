@@ -1,8 +1,7 @@
 # Development Dependencies
--r commont.txt
-flake8-3.9.* 
-mccabe-0.6.* 
-pycodestyle-2.7.* 
-pyflakes-2.3.*
-autopep8-1.5.*
-python-dotenv-0.17.*
+-r common.txt
+mccabe==0.6.* 
+pycodestyle==2.7.* 
+pyflakes==2.3.*
+autopep8==1.5.*
+
